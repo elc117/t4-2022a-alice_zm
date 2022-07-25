@@ -19,9 +19,13 @@ public class GameScreen implements Screen {
     SpriteBatch batch;
 	Texture playerTexture;
     Texture statueTexture;
+    Texture connectionTexture;
 
     Rectangle player;
     Rectangle statue;
+
+    float connectionLength;
+    float connectionAngle;
 
     long lastTeleportTime;
 	
@@ -31,6 +35,7 @@ public class GameScreen implements Screen {
 		batch = new SpriteBatch();
 		playerTexture = new Texture("lilguy.png");
         statueTexture = new Texture("bigguy.png");
+        connectionTexture = new Texture("connection.png");
 
         player = new Rectangle();
         player.width = 64;
@@ -49,10 +54,17 @@ public class GameScreen implements Screen {
 	public void render(float delta) {
 		//clear the screen, currently with a nice grassy green :)
         ScreenUtils.clear(0.5f, 0.7f, 0.3f, 1);
-		
+
+        connectionLength = (float) Math.sqrt(Math.pow(statue.x - player.x, 2) + Math.pow(statue.y - player.y, 2)); //distance between statue and player
+        if (statue.x - player.x > 0)
+            connectionLength = -connectionLength;
+        connectionAngle = (float) Math.toDegrees(Math.asin((player.y - statue.y)/connectionLength)); //angle between statue and player
+
         batch.begin();
-		batch.draw(playerTexture, player.x, player.y);
-        batch.draw(statueTexture, statue.x, statue.y);
+        //draws the connection line between the statue and the player
+        batch.draw(connectionTexture, statue.x+32, statue.y+32, 0, 0, connectionLength, 2, 1, 1, connectionAngle, 0, 0, 64, 64, false, false);
+		batch.draw(playerTexture, player.x, player.y); //draws the player
+        batch.draw(statueTexture, statue.x, statue.y); //draws the statue
 		batch.end();
 
         //receive input to move player
