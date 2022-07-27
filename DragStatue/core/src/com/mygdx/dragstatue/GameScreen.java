@@ -1,5 +1,8 @@
 package com.mygdx.dragstatue;
 
+import java.util.Iterator;
+import java.awt.geom.Line2D;
+
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
@@ -90,10 +93,19 @@ public class GameScreen implements Screen {
             player.y += 200 * Gdx.graphics.getDeltaTime();
         //move statue to player if space is pressed and has been over 1 second since last teleport
         if (Gdx.input.isKeyPressed(Keys.SPACE) && (TimeUtils.nanoTime() - lastTeleportTime > 1000000000) ){
+            //check every enemy to see if the are in the teleport path, if so remove them
+            Line2D.Float connectionLine = new Line2D.Float(statue.x+32, statue.y+32, player.x+32, player.y+32);
+            Iterator<Rectangle> iter = badguys.iterator();
+            while(iter.hasNext()){
+                Rectangle badguy = iter.next();
+                if (connectionLine.intersects(badguy.x, badguy.y, badguy.x+64, badguy.y+64))
+                    iter.remove();
+            }
+            //move the staue to the player
             statue.x = player.x;
             statue.y = player.y;
             lastTeleportTime = TimeUtils.nanoTime();
-    }
+        }
 
         //keep player in bounds
         if (player.x < 0) 
