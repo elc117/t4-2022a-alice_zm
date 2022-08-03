@@ -15,7 +15,7 @@ public class DragStatue extends Game {
 		batch = new SpriteBatch();
 		// Use libGDX's default Arial font
 		font = new BitmapFont();
-		this.setScreen(new GameScreen(this));
+		this.setScreen(new MainMenuScreen(this));
 	}
 
 	@Override
