@@ -8,7 +8,7 @@ import com.mygdx.dragstatue.DragStatue;
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
-		config.setTitle("Drag Statue");
+		config.setTitle("Stonebound");
 		config.setWindowedMode(600, 600);
 		config.useVsync(true);
 		config.setForegroundFPS(60);
