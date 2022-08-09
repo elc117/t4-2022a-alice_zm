@@ -1,6 +1,7 @@
 package com.mygdx.dragstatue;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -16,6 +17,7 @@ public class GameOverScreen implements Screen {
 
 	SpriteBatch batch;
 	Texture gameOverTexture;
+	Music gameOverMusic;
 	
 	public GameOverScreen(final DragStatue passed_game, int score) {
 		game = passed_game;
@@ -23,9 +25,13 @@ public class GameOverScreen implements Screen {
 
 		batch = new SpriteBatch();
 		gameOverTexture = new Texture("gameover.png");
+		gameOverMusic = Gdx.audio.newMusic(Gdx.files.internal("adventure.mp3"));
 
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, WIDTH, HEIGHT);
+
+		gameOverMusic.setLooping(false);
+		gameOverMusic.play();
 	}
 	
 	@Override
@@ -80,6 +86,7 @@ public class GameOverScreen implements Screen {
 	@Override
 	public void dispose() {
 		gameOverTexture.dispose();
+		gameOverMusic.dispose();
 		batch.dispose();
 	}
 

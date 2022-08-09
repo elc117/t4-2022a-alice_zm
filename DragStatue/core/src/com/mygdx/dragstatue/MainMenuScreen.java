@@ -2,6 +2,7 @@ package com.mygdx.dragstatue;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -16,15 +17,20 @@ public class MainMenuScreen implements Screen {
 
 	SpriteBatch batch;
 	Texture mainMenuTexture;
+	Music mainMenuMusic;
 	
 	public MainMenuScreen(final DragStatue passed_game) {
 		game = passed_game;
 		
 		batch = new SpriteBatch();
 		mainMenuTexture = new Texture("mainmenu.png");
+		mainMenuMusic = Gdx.audio.newMusic(Gdx.files.internal("adventure.mp3"));
 
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, WIDTH, HEIGHT);
+
+		mainMenuMusic.setLooping(true);
+		mainMenuMusic.play();
 	}
 	
 	@Override
@@ -78,6 +84,7 @@ public class MainMenuScreen implements Screen {
 	@Override
 	public void dispose() {
 		mainMenuTexture.dispose();
+		mainMenuMusic.dispose();
 		batch.dispose();
 	}
 

@@ -16,6 +16,8 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 
 public class GameScreen implements Screen {
 	final DragStatue game;
@@ -29,6 +31,8 @@ public class GameScreen implements Screen {
     Texture badcircleTexture;
     Texture backgroundTexture;
     Texture towerTexture;
+    Sound tpSound;
+    Music gameMusic;
 
     Rectangle player;
     Rectangle statue;
@@ -56,6 +60,11 @@ public class GameScreen implements Screen {
         badcircleTexture = new Texture("magiccirclebad.png");
         backgroundTexture = new Texture("background.png");
         towerTexture = new Texture("tower.png");
+        tpSound = Gdx.audio.newSound(Gdx.files.internal("impact.mp3"));
+        gameMusic = Gdx.audio.newMusic(Gdx.files.internal("battle.mp3"));
+
+        gameMusic.setLooping(true);
+        gameMusic.play();
 
         player = new Rectangle();
         player.width = 32;
@@ -218,8 +227,12 @@ public class GameScreen implements Screen {
         statue.x = player.x;
         statue.y = player.y;
         tpRadius.setPosition(statue.x+(statue.width/2), statue.y+(statue.width/2));
-        lastTeleportTime = TimeUtils.nanoTime();
         
+        //plays the teleport sound effect
+        tpSound.play(); 
+
+        //resets lastTeleportTime
+        lastTeleportTime = TimeUtils.nanoTime();   
     }
 
     private void gameOver(){
@@ -238,6 +251,8 @@ public class GameScreen implements Screen {
         backgroundTexture.dispose();
         towerTexture.dispose();
         batch.dispose();
+        tpSound.dispose();
+        gameMusic.dispose();
 	}
 
     @Override
